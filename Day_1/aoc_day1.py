@@ -5,13 +5,14 @@
 class Sonar(object):
     def __init__(self):
         self.reset()
-        
+        # self.sliding_window = False for TASK 1
+        # self.sliding_window = True for TASK 2
+        self.sliding_window = True
     def reset(self):
         self.__counter_increase = 0
         self.__counter_decrease = 0
         self.__counter_same = 0
         self.__previous_number = None
-        self.sliding_window = True
         
     def read_txt(self, path):
         val_1 = None
