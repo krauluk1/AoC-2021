@@ -8,6 +8,7 @@ class Sonar(object):
         # self.sliding_window = False for TASK 1
         # self.sliding_window = True for TASK 2
         self.sliding_window = True
+
     def reset(self):
         self.__counter_increase = 0
         self.__counter_decrease = 0
