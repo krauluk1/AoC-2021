@@ -13,26 +13,26 @@ class Drive
         // Task 1
         int horizontal_position_t1 = 0;
         int depth_t1 = 0;
+        void add_position_t1(std::string com, int num);
 
         // Task 2
         int aim_t2 = 0;
         int horizontal_position_t2 = 0;
         int depth_t2 = 0;
+        void add_position_t2(std::string com, int num);
 
     public:
 
-        void read_txt(std::string path);
+        void read_txt(const std::string path);
 
         // Task 1
-        void add_position_t1(std::string com, int num);
-        int calculate_solution_t1();
+        int calculate_solution_t1() const;
 
         // Taks 2
-        void add_position_t2(std::string com, int num);
-        int calculate_solution_t2();
+        int calculate_solution_t2() const;
 };
 
-void Drive::read_txt(std::string path)
+void Drive::read_txt(const std::string path)
 {
     std::ifstream infile(path);
 
@@ -60,7 +60,7 @@ void Drive::add_position_t1(std::string com, int num)
     }
 }
 
-int Drive::calculate_solution_t1()
+int Drive::calculate_solution_t1() const
 {
     return horizontal_position_t1*depth_t1;
 }
@@ -80,7 +80,7 @@ void Drive::add_position_t2(std::string com, int num)
     }
 }
 
-int Drive::calculate_solution_t2()
+int Drive::calculate_solution_t2() const
 {
     return horizontal_position_t2*depth_t2;
 }
