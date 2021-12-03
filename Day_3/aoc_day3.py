@@ -6,7 +6,7 @@ class BinaryDiagnostic(object):
     def __init__(self, path) -> None:
         super().__init__()
         self.gamma_rate = 0
-        self.power_constumption = 0
+        self.epsilon_rate = 0
         self.data = self.read_txt(path)
 
         self.oxygen_rating = 0
@@ -18,10 +18,12 @@ class BinaryDiagnostic(object):
     
     def test1(self):
         self.analyse_1(self.data)
-        print("Answer 1 is: ", self.binary_to_int(self.gamma_rate) * self.binary_to_int(self.power_constumption))
+        print("Gamma", self.gamma_rate, "Epsilon", self.epsilon_rate)
+        print("Answer 1 is: ", self.binary_to_int(self.gamma_rate) * self.binary_to_int(self.epsilon_rate))
 
     def test2(self):
         self.analyse_2(self.data)
+        print("oxigen", self.oxygen_rating, "co2", self.co2_rating)
         print("Answer 2 is: ", self.binary_to_int(self.oxygen_rating) * self.binary_to_int(self.co2_rating))
 
     def analyse_1(self, data):
@@ -52,7 +54,7 @@ class BinaryDiagnostic(object):
                 power_consumption.append('0')
             
         self.gamma_rate = ''.join(gamma_rate)
-        self.power_constumption = ''.join(power_consumption)
+        self.epsilon_rate = ''.join(power_consumption)
 
 
     def analyse_2(self, data):
@@ -66,8 +68,6 @@ class BinaryDiagnostic(object):
 
         oxygen_rating = copy_data[:]
         for j in range(0, len(oxygen_rating[0])):
-            num_0 = 0
-            num_1 = 0
 
             self.analyse_1(oxygen_rating)
 
@@ -75,7 +75,6 @@ class BinaryDiagnostic(object):
                 break
 
             for i in range(len(oxygen_rating)-1, -1, -1):
-                val = oxygen_rating[i][j]
                 if not(int(list(self.gamma_rate)[j]) == int(oxygen_rating[i][j])):
                     oxygen_rating.pop(i)
         self.oxygen_rating  = ''.join(oxygen_rating[0])
@@ -83,8 +82,6 @@ class BinaryDiagnostic(object):
 
         co2_rating = copy_data[:]
         for j in range(0, len(co2_rating[0])):
-            num_0 = 0
-            num_1 = 0
 
             self.analyse_1(co2_rating)
 
@@ -92,8 +89,7 @@ class BinaryDiagnostic(object):
                 break
 
             for i in range(len(co2_rating)-1, -1, -1):
-                val = co2_rating[i][j]
-                if not(int(list(self.power_constumption)[j]) == int(co2_rating[i][j])):
+                if not(int(list(self.epsilon_rate)[j]) == int(co2_rating[i][j])):
                     co2_rating.pop(i)
         self.co2_rating  = ''.join(co2_rating[0])
 
@@ -102,7 +98,7 @@ class BinaryDiagnostic(object):
         return int(bin, 2)
 
     
-b = BinaryDiagnostic('.\input.txt')
+b = BinaryDiagnostic('.\Day_3\input.txt')
 b.test1()
 
 b.test2()
