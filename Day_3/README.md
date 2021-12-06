@@ -1,6 +1,6 @@
 # Day 3: Binary Diagnostic
 
-Description copied from [https://adventofcode.com/2021/day/1](https://adventofcode.com/2021/day/3)
+Description copied from [https://adventofcode.com/2021/day/3](https://adventofcode.com/2021/day/3).
 
 ## Part One
 

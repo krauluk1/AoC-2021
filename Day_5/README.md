@@ -1,6 +1,6 @@
 # Day 5: Hydrothermal Venture 
 
-Description copied from [https://adventofcode.com/2021/day/1](https://adventofcode.com/2021/day/5)
+Description copied from [https://adventofcode.com/2021/day/5](https://adventofcode.com/2021/day/5).
 
 # Part One
 

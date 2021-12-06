@@ -1,6 +1,6 @@
 # Day 1: Sonar Sweep 
 
-Description copied from [https://adventofcode.com/2021/day/1](https://adventofcode.com/2021/day/1)
+Description copied from [https://adventofcode.com/2021/day/1](https://adventofcode.com/2021/day/1).
 
 ## Part One 
 
