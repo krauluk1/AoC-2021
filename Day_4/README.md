@@ -1,6 +1,6 @@
 # Day 4: Giant Squid 
 
-Description copied from [https://adventofcode.com/2021/day/1](https://adventofcode.com/2021/day/4)
+Description copied from [https://adventofcode.com/2021/day/4](https://adventofcode.com/2021/day/4).
 
 ## Part One
 

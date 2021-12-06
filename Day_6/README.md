@@ -1,6 +1,6 @@
 # Day 6: Lanternfish 
 
-Description copied from [https://adventofcode.com/2021/day/1](https://adventofcode.com/2021/day/6)
+Description copied from [https://adventofcode.com/2021/day/6](https://adventofcode.com/2021/day/6).
 
 ## Part One
 
