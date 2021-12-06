@@ -46,6 +46,7 @@ class Lanternfish(object):
                 # Create new fish
                 data = numpy.append(data, 8)
             data[fish] -= 1
+            
         return data
 
     def calculate_fish_nr1(self, days):
