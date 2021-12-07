@@ -22,8 +22,7 @@ class Crabs
     public:
         Crabs(std::string path);
 
-        int calculate_min_fuel();
-        int calculate_min_fuel2();
+        int calculate_min_fuel(bool crab_formation);
 };
 
 Crabs::Crabs(std::string path){
@@ -61,7 +60,7 @@ std::vector<int> Crabs::process_string(std::string st){
     return seglist;
 }
 
-int Crabs::calculate_min_fuel(){
+int Crabs::calculate_min_fuel(bool crab_formation){
     // Part One
     // Positions from negative - positive + 0 pos
     std::vector<int> fuel(max_number - min_number + 1, 0);
@@ -72,33 +71,18 @@ int Crabs::calculate_min_fuel(){
             if(val < 0){
                 val = -val;
             }
-            fuel[i] += val;
-        }
-    }
 
-    auto min = std::min_element(std::begin(fuel), std::end(fuel));
-    return *min;
-}
+            if(crab_formation){
+                int sum = 0;
+                
+                for(int j = 1; j < val + 1; j ++){
+                    sum+=j;
+                }
 
-int Crabs::calculate_min_fuel2(){
-    // Part Two
-    // Positions from negative - positive + 0 pos
-    std::vector<int> fuel(max_number - min_number + 1, 0);
-
-    for(auto f:group){
-        for(auto i = 0; i < fuel.size(); i++){
-            int val = i - f;
-            
-            if(val < 0){
-                val = -val;
+                fuel[i] += sum;
+            }else{
+                fuel[i] += val;    
             }
-
-            int sum = 0;
-            for(int j = 1; j < val + 1; j ++){
-                sum+=j;
-            }
-
-            fuel[i] += sum;
         }
     }
 
@@ -109,7 +93,7 @@ int Crabs::calculate_min_fuel2(){
 int main()
 {
     Crabs d("input.txt");
-    std::cout << "Solution Task 1: " << d.calculate_min_fuel() << std::endl;
-    std::cout << "Solution Task 2: " << d.calculate_min_fuel2() << std::endl;
+    std::cout << "Solution Task 1: " << d.calculate_min_fuel(false) << std::endl;
+    std::cout << "Solution Task 2: " << d.calculate_min_fuel(true) << std::endl;
     return 0;
 }
