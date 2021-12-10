@@ -7,17 +7,21 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
+#include <map>
+#include<set>
 
 
 class SmokeBasin
 {
     private:
         std::vector<std::vector<int>> group;
+
         std::vector<std::vector<int>> read_txt(const std::string path);
         std::vector<int> process_string(const std::string str);
         std::vector<int> calculate_neighbors(std::vector<std::vector<int>> data, int height, int width);
+        std::set<std::string> calculate_neighbors_positions(std::vector<std::vector<int>> data, int height, int width);
 
-    public:
+    public: 
         SmokeBasin(std::string path);
         int calculate_minimum();
         int calculate_basin_size();
@@ -27,44 +31,89 @@ SmokeBasin::SmokeBasin(std::string path){
     group = read_txt(path);
 }
 
-int SmokeBasin::calculate_basin_size(){
-    std::vector<int> number;
-    std::vector<std::vector<int>> data = group;
-    std::vector<std::vector<int>> groupe(data.size(), std::vector<int>(data[0].size(), 1000000));
 
-    int counter = 0;
 
-    for(int i = 0; i < data.size(); i++){
-        for(int j = 0; j < data[0].size(); j++){
-            int curr_val = data[i][j];
-            std::vector<int> gr = calculate_neighbors(groupe, i, j);
-            // Is there any group right next to here?
-            int curr_group = 1000000;
-            std::cout << "\nValue " << curr_val << std::endl;
-            for(int x:gr){
-                if(x!=1000000 && curr_val!=9){
-                    std::cout << "x " << x << std::endl;
-                    curr_group = x;
-                }
-            }
+std::set<std::string> SmokeBasin::calculate_neighbors_positions(std::vector<std::vector<int>> data, int height, int width){
+    // Get all Neighbors if exists
+    int number = data[height][width];
+     std::set<std::string> neighbors;
 
-        
-            if(curr_group==1000000 && curr_val != 9){
-                std::cout << "New counter " << counter << std::endl;
-                number.push_back(1);
-                groupe[i][j] = counter;
-                counter+=1;
-            }else if(curr_val != 9){
-                std::cout << "Use counter "<< curr_group <<std::endl;
-                number[curr_group]+=+1;
-                groupe[i][j] = curr_group;
-            }            
+    if(number != 9){
+        neighbors.insert(std::to_string(height) + "|" + std::to_string(width));
+    }
+
+    // Look out for up, down, right and left neightbors
+    
+    if(height>0){
+        // Top position
+        if(data[height-1][width] != 9){
+            neighbors.insert(std::to_string(height-1) + "|" + std::to_string(width));
+        }
+    }
+        // Top position
+    
+
+    if(height < data.size()-1){
+        // Bottom
+        if(data[height+1][width] != 9){
+            neighbors.insert(std::to_string(height+1) + "|" + std::to_string(width));
         }
     }
 
-    std::cout <<"output "<< number[0] << " " << number[1] << " " << number[2]<< std::endl;
-    std::sort(number.begin(), number.end(), [](const int & a, const int & b){ return a > b; });
-    return number[0]*number[1]*number[2];
+    if(width > 0){
+        // Left position
+        if(data[height][width-1] != 9){
+            neighbors.insert(std::to_string(height) + "|" + std::to_string(width-1));
+        }
+    }
+
+    if(width < data[0].size()-1){
+        // Right position
+        if(data[height][width+1] != 9){
+            neighbors.insert(std::to_string(height) + "|" + std::to_string(width+1));
+        }
+    }
+
+    return neighbors;
+}
+
+
+
+
+int SmokeBasin::calculate_basin_size(){
+    std::vector<std::vector<int>> data = group;
+    std::vector<std::set<std::string>> mymap;
+    
+    for(int i = 0; i < data.size(); i++){
+        for(int j = 0; j < data[i].size(); j++){
+            if(data[i][j] != 9)
+            {
+                mymap.push_back(calculate_neighbors_positions(data, i, j));
+            }
+        }
+    }
+
+
+
+        
+
+
+    for(auto it = mymap.begin(); it!=mymap.end(); it++){
+         for(auto it1 = mymap.begin()+1; it1!=mymap.end(); it1++){
+            std::vector<int> common_data;
+            set_intersection(it.begin(),it.end(),it1.begin(),it1.end(), std::back_inserter(common_data));
+        
+
+    }
+
+    for(auto it = my1.begin(); it!=my1.end(); it++){
+        for(auto i:it){
+            std::cout << i << std::endl;
+        }   
+    }
+
+    
+    return 0;
 }
 
 
@@ -100,29 +149,21 @@ std::vector<int> SmokeBasin::calculate_neighbors(std::vector<std::vector<int>> d
     if(height>0){
         // Top position
         neighbors.push_back(data[height-1][width]);
-    }else{
-        neighbors.push_back(1000000);
     }
 
     if(height < data.size()-1){
         // Bottom
         neighbors.push_back(data[height+1][width]);
-    }else{
-        neighbors.push_back(1000000);
     }
 
     if(width > 0){
         // Left position
         neighbors.push_back(data[height][width-1]);
-    }else{
-        neighbors.push_back(1000000);
     }
 
     if(width < data[0].size()-1){
         // Right position
         neighbors.push_back(data[height][width+1]);
-    }else{
-        neighbors.push_back(1000000);
     }
 
     return neighbors;
