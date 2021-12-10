@@ -95,19 +95,22 @@ int SmokeBasin::calculate_basin_size(){
     }
 
 
-
     bool length_change = true;
-    
     int x = 0;
-    std::vector<std::set<std::string>> mymap_copy = mymap;
     while (length_change){
         int len = mymap.size();
-        std::set<std::string> intersect;
-        for(int i = x; i < len; i++){
-            set_intersection(mymap[x].begin(), mymap_copy[x].end(), mymap_copy[i].begin(), mymap_copy[i].end(), std::inserter(intersect, intersect.begin()));
-            std::cout << "intersection is"<< std::endl;
-                for(auto i : intersect){
-                std::cout << i << std::endl;
+        std::vector<std::set<std::string>> mymap_copy = mymap;
+
+        for(int j = 0; j < len; j++)
+        {
+            for(int d = j+1; d < len; d++){
+                std::set<std::string> intersect;
+                set_intersection(mymap[j].begin(), mymap[j].end(), mymap[d].begin(), mymap[d].end(), std::inserter(intersect, intersect.begin()));
+                
+                if(intersect.size() > 0){
+                    mymap[j].insert(mymap[d].begin(), mymap[d].end());
+                    mymap.erase(mymap.begin() + d);
+                }
             }
         }
         
@@ -115,10 +118,9 @@ int SmokeBasin::calculate_basin_size(){
             length_change = false;
         }
     }
-    
-    // sort after size to get the largest 3
-    std::sort(mymap.begin(), mymap.end(), [](const std::vector<std::set<std::string>> & a, const std::vector<std::set<std::string>> & b){ return a.size() > b.size(); });
-    return 2;
+
+    std::sort(mymap.begin(), mymap.end(), [](const std::set<std::string> & a, const std::set<std::string> & b){ return a.size() > b.size(); });
+    return mymap[0].size() * mymap[1].size() * mymap[2].size();
 }
 
 
@@ -202,7 +204,7 @@ std::vector<int> SmokeBasin::process_string(const std::string str){
 
 int main()
 {
-    SmokeBasin d("example.txt");
+    SmokeBasin d("input.txt");
     std::cout << "Solution taks 1: " << d.calculate_minimum() << std::endl;
     std::cout << "Solution taks 2: " << d.calculate_basin_size() << std::endl;
     return 0;
