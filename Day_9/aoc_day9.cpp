@@ -84,6 +84,7 @@ int SmokeBasin::calculate_basin_size(){
     std::vector<std::vector<int>> data = group;
     std::vector<std::set<std::string>> mymap;
     
+    // Get the indizes of the multidimensional list
     for(int i = 0; i < data.size(); i++){
         for(int j = 0; j < data[i].size(); j++){
             if(data[i][j] != 9)
@@ -95,25 +96,29 @@ int SmokeBasin::calculate_basin_size(){
 
 
 
-        
-
-
-    for(auto it = mymap.begin(); it!=mymap.end(); it++){
-         for(auto it1 = mymap.begin()+1; it1!=mymap.end(); it1++){
-            std::vector<int> common_data;
-            set_intersection(it.begin(),it.end(),it1.begin(),it1.end(), std::back_inserter(common_data));
-        
-
-    }
-
-    for(auto it = my1.begin(); it!=my1.end(); it++){
-        for(auto i:it){
-            std::cout << i << std::endl;
-        }   
-    }
-
+    bool length_change = true;
     
-    return 0;
+    int x = 0;
+    std::vector<std::set<std::string>> mymap_copy = mymap;
+    while (length_change){
+        int len = mymap.size();
+        std::set<std::string> intersect;
+        for(int i = x; i < len; i++){
+            set_intersection(mymap[x].begin(), mymap_copy[x].end(), mymap_copy[i].begin(), mymap_copy[i].end(), std::inserter(intersect, intersect.begin()));
+            std::cout << "intersection is"<< std::endl;
+                for(auto i : intersect){
+                std::cout << i << std::endl;
+            }
+        }
+        
+        if(mymap.size() == mymap_copy.size()){
+            length_change = false;
+        }
+    }
+    
+    // sort after size to get the largest 3
+    std::sort(mymap.begin(), mymap.end(), [](const std::vector<std::set<std::string>> & a, const std::vector<std::set<std::string>> & b){ return a.size() > b.size(); });
+    return 2;
 }
 
 
