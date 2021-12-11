@@ -30,7 +30,7 @@ class DumboOctopus
     public: 
         DumboOctopus(std::string path);
 
-        int flash(int steps);
+        int flash(int steps, bool task2);
 };
 
 DumboOctopus::DumboOctopus(std::string path){
@@ -38,7 +38,7 @@ DumboOctopus::DumboOctopus(std::string path){
 }
 
 
-int DumboOctopus::flash(int steps){
+int DumboOctopus::flash(int steps, bool task2){
     int counter = 0;
     std::vector<std::vector<int>> data = group;
 
@@ -54,13 +54,25 @@ int DumboOctopus::flash(int steps){
             std::cout << "Proof flashed " << all_flashed << std::endl;
         }
 
-
         std::cout << "\nMatrix " << step << std::endl;
         for(int row = 0; row < data.size(); row++){
             for(int col = 0; col < data[0].size(); col++){
                 std::cout << data[row][col] << " "; 
             }
             std::cout << "\n";
+        }
+
+        if(task2){
+            long zero = 0;
+            for(int row = 0; row < data.size(); row++){
+                for(int col = 0; col < data[0].size(); col++){
+                    zero += data[row][col];
+                }
+            }
+
+            if(zero == 0){
+                return step;
+            }
         }
     }
 
@@ -110,14 +122,6 @@ void DumboOctopus::changeSingleNumber(std::vector<std::vector<int>> &ma, int ro,
             ma[ro][co] += 1;
         }
     }
-
-    //try{
-    //    if(ma[ro][co] != 0){
-    //        ma[ro][co] += 1;
-    //    }
-    //}catch(...){
-        // Do nothing
-    //}
 }
 
 
@@ -150,6 +154,10 @@ std::vector<int> DumboOctopus::process_string(const std::string str){
 int main()
 {
     DumboOctopus d("input.txt");
-    std::cout << "Solution taks 1: " << d.flash(100) << std::endl;
+    long bombs = d.flash(100, false);
+    long loop = d.flash(500, true);
+
+    std::cout << "\nSolution taks 1: " << bombs << std::endl;
+    std::cout << "Solution taks 2: " << loop << std::endl;
     return 0;
 }
