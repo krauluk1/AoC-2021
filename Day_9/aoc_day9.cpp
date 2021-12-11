@@ -99,7 +99,6 @@ int SmokeBasin::calculate_basin_size(){
     int x = 0;
     while (length_change){
         int len = mymap.size();
-        std::vector<std::set<std::string>> mymap_copy = mymap;
 
         for(int j = 0; j < len; j++)
         {
@@ -114,7 +113,7 @@ int SmokeBasin::calculate_basin_size(){
             }
         }
         
-        if(mymap.size() == mymap_copy.size()){
+        if(mymap.size() == len){
             length_change = false;
         }
     }
