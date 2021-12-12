@@ -34,28 +34,24 @@ int PassagePathing::Task1(bool in){
     std::vector<std::vector<std::string>> cases;
     std::vector<bool> visited;
 
-    std::vector<std::string> sol_1;
-    bool vis_1;
-
     cases.push_back({"start"});
-    visited.push_back(!in);
+    visited.push_back(in);
 
     bool change_detected = true;
 
     while(cases.size()){
-        sol_1 = cases.back();
-        vis_1 = visited.back();
+        std::vector<std::string> sol_1 = cases.back();
+        bool vis_1 = visited.back();
+
         cases.pop_back();
         visited.pop_back();
 
         if(sol_1.back() == "end"){
-            // If end is reached, mark as finished
             all_paths.push_back(sol_1);
             continue;
         }
 
         if(selection1(sol_1.back(), sol_1)){
-            // We dont want to go back to our starting value
             if(sol_1.back() == "start" || vis_1){
                 continue;
             }
@@ -63,9 +59,9 @@ int PassagePathing::Task1(bool in){
         }
 
         for(auto c:way[sol_1.back()]){
-            std::vector<std::string> sol_2 = sol_1;
-            sol_1.push_back(c);
-            cases.push_back(sol_1);
+            std::vector<std::string> sol_tmp = sol_1;
+            sol_tmp.push_back(c);
+            cases.push_back(sol_tmp);
             visited.push_back(vis_1);
         }
 
@@ -138,7 +134,7 @@ int main()
     PassagePathing d("input.txt");
     int t1 = d.Task1(true);
     int t2 = d.Task1(false);
-    std::cout << "\nSolution taks 1: " << t1 << std::endl;
+    std::cout << "Solution taks 1: " << t1 << std::endl;
     std::cout << "Solution taks 2: " << t2 << std::endl;
     return 0;
 }
