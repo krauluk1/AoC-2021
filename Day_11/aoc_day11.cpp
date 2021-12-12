@@ -51,7 +51,6 @@ int DumboOctopus::flash(int steps, bool task2){
         bool all_flashed = true;
         while(all_flashed){
             flashMatrix(data, &counter, &all_flashed);
-            std::cout << "Proof flashed " << all_flashed << std::endl;
         }
 
         std::cout << "\nMatrix " << step << std::endl;
