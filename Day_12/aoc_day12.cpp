@@ -37,8 +37,6 @@ int PassagePathing::Task1(bool in){
     cases.push_back({"start"});
     visited.push_back(in);
 
-    bool change_detected = true;
-
     while(cases.size()){
         
         std::vector<std::string> sol_1 = cases.back();
