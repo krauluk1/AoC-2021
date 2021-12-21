@@ -11,8 +11,12 @@ class Chiton(object):
         print("Answer Part 2", part2)
 
     def read_file(self, path):
+        grid = {}
+        # Identify number by row, col => (row, column) : value
         with open(path) as file:
-            grid = {(x, y):int(n) for y, row in enumerate(file.read().splitlines()) for x, n in enumerate(row)}
+            for y, line in enumerate(file.read().splitlines()):
+                for x, number in enumerate(line):
+                    grid[(y, x)] = int(number)
         return grid
 
     def dijkstra(self, grid, target, start=(0, 0), risk=0):
@@ -22,6 +26,8 @@ class Chiton(object):
 
         while queue:
             risk, (x, y) = heapq.heappop(queue)
+            print("risk", risk, "x", x, "y", y)
+
             if (x, y) == target:
                 return risk
 
@@ -37,7 +43,9 @@ class Chiton(object):
 
     def solve(self, puzzle):
         maxX, maxY = map(max, zip(*puzzle))
+        print("maxX ", maxX, " maxY ", maxY)
         part1 = self.dijkstra(puzzle, (maxX, maxY))
+        print("Part 1", part1)
 
         puzzle2 = {}
         for j in range(5):
