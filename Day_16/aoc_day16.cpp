@@ -8,17 +8,17 @@
 #include <vector>
 #include <algorithm>
 
-using ushort = unsigned short;
 using ull_int = unsigned long long int;
 
 class PacketDecoder{
     private:
         std::string binary;
+        int sum_version = 0;
+        ull_int express;
+
         void read_txt(const std::string path);
         const char* hex_to_bin(char c);
         ull_int parse_packet();
-        int sum_version = 0;
-        ull_int express;
 
     public: 
         PacketDecoder(std::string path);
@@ -87,7 +87,7 @@ ull_int PacketDecoder::parse_packet(){
 			// Get total length of bits
 			std::string lenght_str{ binary.begin(), binary.begin() + 15 };
 			binary.erase(binary.begin(), binary.begin() + 15);
-			ushort lenght = std::stoi(lenght_str, nullptr, 2);
+			int lenght = std::stoi(lenght_str, nullptr, 2);
 
 			// Get Sub-Packets 
 			size_t curr_size = binary.size();
@@ -97,36 +97,41 @@ ull_int PacketDecoder::parse_packet(){
 		}else{
 			std::string packet_nb_str{ binary.begin(), binary.begin() + 11 };
 			binary.erase(binary.begin(), binary.begin() + 11);
-			ushort packet_nb = std::stoi(packet_nb_str, nullptr, 2);
+			int packet_nb = std::stoi(packet_nb_str, nullptr, 2);
 
-			for (ushort i = 0; i < packet_nb; i++)
+			for (int i = 0; i < packet_nb; i++)
 				sub_packets.push_back(parse_packet());
 		}
 
-		if (id == 0)
-		{
+		// Task 2
+		if (id == 0){
+			// Sum
 			ull_int value = 0;
 			for (auto& i : sub_packets)
 				value += i;
 			return value;
-		}
-		else if (id == 1)
-		{
+		}else if (id == 1){
+			// Product
 			ull_int value = 1;
 			for (auto& i : sub_packets)
 				value *= i;
 			return value;
-		}
-		else if (id == 2)
+		}else if (id == 2){
+			// Minimum
 			return *std::min_element(sub_packets.begin(), sub_packets.end());
-		else if (id == 3)
+		}else if (id == 3){
+			// Maximum
 			return *std::max_element(sub_packets.begin(), sub_packets.end());
-		else if (id == 5)
+		}else if (id == 5){
+			// greater than
 			return (ull_int)(sub_packets[0] > sub_packets[1]);
-		else if (id == 6)
+		}else if (id == 6){
+			// less than
 			return (ull_int)(sub_packets[0] < sub_packets[1]);
-		else if (id == 7)
+		}else if (id == 7){
+			// equal to
 			return (ull_int)(sub_packets[0] == sub_packets[1]);
+		}
 	}
 }
 
