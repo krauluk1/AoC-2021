@@ -19,46 +19,45 @@ class Chiton(object):
                     grid[(y, x)] = int(number)
         return grid
 
-    def dijkstra(self, grid, target, start=(0, 0), risk=0):
+    def find_path(self, grid, end, start=(0, 0), risk=0):
         queue = [(risk, start)]
-        minRisk = {start: risk}
+        minimum_risk = {start: risk}
         visited = {start}
 
         while queue:
             risk, (x, y) = heapq.heappop(queue)
-            print("risk", risk, "x", x, "y", y)
 
-            if (x, y) == target:
+            if (x, y) == end:
                 return risk
 
-            for neighb in ((x+1, y), (x, y+1), (x-1, y), (x, y-1)):
-                if neighb not in grid or neighb in visited:
+            for neighbour in ((x+1, y), (x, y+1), (x-1, y), (x, y-1)):
+                if neighbour not in grid or neighbour in visited:
                     continue
-                visited.add(neighb)
-                newRisk = risk + grid[neighb]
-                if newRisk < minRisk.get(neighb, 999999):
-                    minRisk[neighb] = newRisk
-                    heapq.heappush(queue, (newRisk, neighb))
+                visited.add(neighbour)
+                newRisk = risk + grid[neighbour]
+                if newRisk < minimum_risk.get(neighbour, 999999):
+                    minimum_risk[neighbour] = newRisk
+                    heapq.heappush(queue, (newRisk, neighbour))
         
 
-    def solve(self, puzzle):
-        maxX, maxY = map(max, zip(*puzzle))
-        print("maxX ", maxX, " maxY ", maxY)
-        part1 = self.dijkstra(puzzle, (maxX, maxY))
-        print("Part 1", part1)
+    def solve(self, input):
+        # Size of mat, max dist point
+        max_value_x, max_value_y = map(max, zip(*input))
+        # Path finding algo
+        part1 = self.find_path(input, (max_value_x, max_value_y))
 
-        puzzle2 = {}
+        input2 = {}
         for j in range(5):
             for i in range(5):
-                for (x, y), value in puzzle.items():
-                    newXY = (x + (maxX+1) * i, y + (maxY+1) * j)
-                    newVal = value + i + j
-                    puzzle2[newXY] = newVal if newVal < 10 else newVal % 9
+                for (x, y), value in input.items():
+                    new_value_x_y = (x + (max_value_x+1) * i, y + (max_value_y+1) * j)
+                    new_value = value + i + j
+                    input2[new_value_x_y] = new_value if new_value < 10 else new_value % 9
 
-        maxX, maxY = map(max, zip(*puzzle2))
-        part2 = self.dijkstra(puzzle2, (maxX, maxY))
+        max_value_x, max_value_y = map(max, zip(*input2))
+        part2 = self.find_path(input2, (max_value_x, max_value_y))
 
         return part1, part2
 
 
-c = Chiton('example.txt')
+c = Chiton('input.txt')
