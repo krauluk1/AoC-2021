@@ -14,7 +14,7 @@ class Sonar(object):
         self.__counter_decrease = 0
         self.__counter_same = 0
         self.__previous_number = None
-        
+
     def read_txt(self, path):
         val_1 = None
         val_2 = None
@@ -35,46 +35,44 @@ class Sonar(object):
                             else:
                                 val_3 = v
 
-                            if(val_1 != None and val_2 != None and val_3!=None):
-                                self.count_distance_change(val_1 + val_2 + val_3)                                
+                            if(val_1 != None and val_2 != None and val_3 != None):
+                                self.count_distance_change(
+                                    val_1 + val_2 + val_3)
                                 val_1 = val_2
                                 val_2 = val_3
 
-
                     except ValueError:
                         print("Warning: <<" + cont + ">> is not a number")
-                
 
     def count_distance_change(self, number):
         if(self.__previous_number == None):
             self.__previous_number = number
             print(number, "(N/A - no previous measurement)")
         elif(number > self.__previous_number):
-            self.__counter_increase+=1
+            self.__counter_increase += 1
             print(number, "(increased)")
         elif(number < self.__previous_number):
-            self.__counter_decrease+=1
+            self.__counter_decrease += 1
             print(number, "(decreased)")
-        else: 
+        else:
             self.__counter_same += 1
             print(number, "(no change)")
-        
+
         self.__previous_number = number
-        
-        
+
     def get_counter_increase(self):
         return self.__counter_increase
-    
+
     def get_counter_decrease(self):
         return self.__counter_decrease
-    
+
     def get_counter_same(self):
         return self.__counter_same
 
 
 son = Sonar()
 son.read_txt('measurement.txt')
-    
+
 
 print(son.get_counter_increase(), "total increases")
 print(son.get_counter_decrease(), "total decreases")

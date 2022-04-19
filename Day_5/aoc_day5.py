@@ -2,6 +2,7 @@
 # Made by: krauluk1
 import numpy
 
+
 class HydrothermalVenture(object):
     def __init__(self, path):
         # data is (right, down) = (x, y)
@@ -23,8 +24,9 @@ class HydrothermalVenture(object):
             line = f.read().splitlines()
             for i in range(len(line)):
                 line[i] = line[i].split(' -> ')
-                line[i] = [list(map(int,line[i][0].split(','))), list(map(int,line[i][1].split(',')))]
-            return line  
+                line[i] = [list(map(int, line[i][0].split(','))),
+                           list(map(int, line[i][1].split(',')))]
+            return line
 
     def make_empty_diagramm(self, data):
         # Figure out highest number
@@ -47,7 +49,7 @@ class HydrothermalVenture(object):
             stop = i[1]
 
             if(start[0] == stop[0] or start[1] == stop[1]):
-        
+
                 if(start[0] > stop[0] or start[1] > stop[1]):
                     start, stop = self.swap(start, stop)
 
@@ -61,7 +63,7 @@ class HydrothermalVenture(object):
 
                 elif(start[0] == stop[0] and start[1] == stop[1]):
                     diagramm[start[1]][start[0]] += 1
-                    
+
         return diagramm
 
     def consider_diagonals(self, data, diagramm):
@@ -74,12 +76,12 @@ class HydrothermalVenture(object):
 
                 if(start[0] > stop[0]):
                     start, stop = self.swap(start, stop)
-                
+
                 for step in range(stop[0] - start[0] + 1):
                     if(start[1] < stop[1]):
                         diagramm[start[1]+step][start[0]+step] += 1
                     elif(start[1] > stop[1]):
-                        diagramm[start[1]-step][start[0]+step] += 1                        
+                        diagramm[start[1]-step][start[0]+step] += 1
 
         return diagramm
 
@@ -88,11 +90,11 @@ class HydrothermalVenture(object):
 
     def count_overlap1(self, diagramm):
         # Get Anz(value > 1)
-        sum  = 0
+        sum = 0
         for line in diagramm:
             for value in line:
                 if(value > 1):
-                    sum+=1
+                    sum += 1
         return sum
 
 
