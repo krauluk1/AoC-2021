@@ -2,12 +2,13 @@
 # Made by: krauluk1
 import numpy
 
+
 class SyntaxScoring(object):
     def __init__(self, path):
         # Prepare Data
         self.data = self.__read_txt(path)
-        self.brackets_open = {'(':')', '[':']', '{':'}', '<':'>'}
-        self.brackets_close = {v:k for k,v in self.brackets_open.items()}
+        self.brackets_open = {'(': ')', '[': ']', '{': '}', '<': '>'}
+        self.brackets_close = {v: k for k, v in self.brackets_open.items()}
         self.corrupted = []
 
     def __read_txt(self, path):
@@ -21,7 +22,7 @@ class SyntaxScoring(object):
     def find_corrupted(self):
         # Task 1 & Task 2
         counter = 0
-        points = {')':3, ']':57, '}':1197, '>':25137}
+        points = {')': 3, ']': 57, '}': 1197, '>': 25137}
 
         for point in range(len(self.data)-1, -1, -1):
             line = self.data[point]
@@ -33,7 +34,7 @@ class SyntaxScoring(object):
                 elif c == close[-1]:
                     close.pop(-1)
                 elif c in self.brackets_close:
-                    counter+= points[c]
+                    counter += points[c]
                     self.corrupted.append(self.data.pop(point))
                     break
 
@@ -41,7 +42,7 @@ class SyntaxScoring(object):
 
     def repair_incomplete(self):
         # Task 2
-        points = {')':1, ']':2, '}':3, '>':4}
+        points = {')': 1, ']': 2, '}': 3, '>': 4}
         score = []
 
         for point in range(len(self.data)):
@@ -54,16 +55,13 @@ class SyntaxScoring(object):
                 elif c == close[-1]:
                     close.pop(-1)
 
-            counter = 0      
+            counter = 0
             for i in range(len(close)-1, -1, -1):
                 counter = counter * 5 + points[close[i]]
             score.append(counter)
 
         score.sort()
         return score[len(score)//2]
-                
-                
-
 
 
 h = SyntaxScoring('input.txt')

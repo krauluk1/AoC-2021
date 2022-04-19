@@ -50,5 +50,6 @@
         "map": "cpp",
         "xtree": "cpp",
         "set": "cpp"
-    }
+    },
+    "editor.formatOnSave": true
 }

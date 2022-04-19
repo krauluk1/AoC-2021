@@ -6,7 +6,6 @@
 #include <string>
 #include <algorithm>
 
-
 class Drive
 {
     private:
